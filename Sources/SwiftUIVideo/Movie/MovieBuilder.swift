@@ -13,7 +13,7 @@ public class MovieBuilder: TimelapseBuilderDelegate, ObservableObject {
     
     
     public init() {
-        length = 100
+        
     }
     
     @Published public var frameRate = 30

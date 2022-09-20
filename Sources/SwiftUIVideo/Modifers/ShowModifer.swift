@@ -9,15 +9,23 @@
 import SwiftUI
 
 public struct ShowModifier: ViewModifier {
-    var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     public let frame: Double
+    public let frame2: Double = .infinity
     @State var time = 0.0
     public func body(content: Content) -> some View {
-       content
-            .opacity(frame <= time ? 1 : 0)
+        Group {
+            if frame <= time && time <= frame2 {
+                content
+                    .transition(.opacity)
+            }
+        }
             .onReceive(timer) { timer in
                 withAnimation(.ease) {
                     time += 25
+                }
+                if time <= frame2 {
+                    self.timer.upstream.connect().cancel()
                 }
             }
     }

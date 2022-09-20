@@ -14,6 +14,7 @@ public struct Movie<Content: View>: View {
     public init(length: Double, @ViewBuilder content: @escaping () -> Content) {
         self.content = content
         self.length = length
+        UserDefaults.standard.set(length, forKey: "length")
     }
     @State var length: Double
     @State var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -21,8 +22,9 @@ public struct Movie<Content: View>: View {
     @StateObject var movie = MovieBuilder()
     public var body: some View {
         ZStack(content: content)
+            .aspectRatio(16/9, contentMode: .fit)
             .task {
-                UserDefaults.standard.set(length, forKey: "length")
+               
                 if await screenRecorder.canRecord {
                     if let firstWindow = screenRecorder.filterWindows(screenRecorder.availableWindows).first {
                         screenRecorder.selectedWindow = firstWindow
@@ -35,13 +37,9 @@ public struct Movie<Content: View>: View {
             }
             .onReceive(timer) { timer in
                 do {
-                    print("FRAME")
-                    print(frameNumber)
-                    print("LENGTH")
-                    print(length)
                     if frameNumber > length {
                         try movie.build()
-                        self.timer = Timer.publish(every: 10000, on: .main, in: .common).autoconnect()
+                        self.timer.upstream.connect().cancel()
                     } else {
                         
                     }

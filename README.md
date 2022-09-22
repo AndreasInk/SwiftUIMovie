@@ -2,7 +2,7 @@
 
 ## 😀 Welcome to SwiftUIMovie...
 
-### A framework that renders SwiftUI views as a video to create amazinf promotional material for your apps
+### A framework that renders SwiftUI views as a video to create amazing promotional material for your apps
 
 # **This is still in alpha**
 

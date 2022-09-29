@@ -102,8 +102,9 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
         case .screen:
             // Create a CapturedFrame structure for a video sample buffer.
             guard let frame = createFrame(for: sampleBuffer) else { return }
-            if Double(index) < UserDefaults.standard.double(forKey: "length") {
+            if Double(index) < UserDefaults.standard.double(forKey: "length") * 60 {
                 let img = convert(cmage: CIImage(ioSurface: frame.surface!))
+                
                 saveImage(img, atUrl: .getDocumentsDirectory().appendingPathComponent( "\(Int(index))" + ".png"))
             }
                 index += 1
@@ -121,14 +122,14 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
          let context = CIContext(options: nil)
          let cgImage = context.createCGImage(cmage, from: cmage.extent)!
         let image = NSImage(cgImage: cgImage, size: CGSize(width: cgImage.width, height: cgImage.height))
-         return image
+        return image
     }
      func saveImage(_ image: NSImage, atUrl url: URL) {
         guard
             let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
             else { return } // TODO: handle error
         let newRep = NSBitmapImageRep(cgImage: cgImage)
-        newRep.size = image.size // if you want the same size
+         newRep.size = CGSize(width: image.size.width, height: image.size.height - 100)// if you want the same size
         guard
             let pngData = newRep.representation(using: .png, properties: [:])
             else { return } // TODO: handle error

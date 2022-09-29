@@ -23,6 +23,7 @@ public struct Movie<Content: View>: View {
     public var body: some View {
         ZStack(content: content)
             .aspectRatio(16/9, contentMode: .fit)
+            .padding(.top, 25)
             .task {
                
                 if await screenRecorder.canRecord {
@@ -43,7 +44,7 @@ public struct Movie<Content: View>: View {
                     } else {
                         
                     }
-                    frameNumber += 25
+                    frameNumber += 0.5
                 } catch {
                     
                 }

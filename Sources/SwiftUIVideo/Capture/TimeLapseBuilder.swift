@@ -223,7 +223,7 @@ public class TimeLapseBuilder {
         let context = CGContext(
             data: pixelData,
             width: Int(image.size.width),
-            height: Int(image.size.height),
+            height: Int(image.size.height - 100),
             bitsPerComponent: 8,
             bytesPerRow: CVPixelBufferGetBytesPerRow(pixelBuffer),
             space: rgbColorSpace,

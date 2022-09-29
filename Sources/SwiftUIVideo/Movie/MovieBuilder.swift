@@ -21,7 +21,7 @@ public class MovieBuilder: TimelapseBuilderDelegate, ObservableObject {
     @Published public var videoURL: URL?
     
     @AppStorage("length") var length = 150.0
-    public func build(videoTitle: String = "test") throws {
+    public func build(videoTitle: String = "testing") throws {
         //let movie = Color.green.frame(width: 2000, height: 2000, alignment: .center)
         
       

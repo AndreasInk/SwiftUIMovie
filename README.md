@@ -1,8 +1,8 @@
 ![Twitter post - 8.png](https://res.craft.do/user/full/23a03a79-af5e-1af9-b4ff-27170389b6b1/doc/7441435D-DD98-4A56-8397-A430E054F3F7/21AF8DAC-8702-430D-988A-3C9638EAF362_2/StsiZ5MZq2o28W8Nfb7wKCxaKhfkE8CKHxVC2GpXEeAz/Twitter%20post%20-%208.png)
 
-## 😀 Welcome to SwiftMovie...
+## 😀 Welcome to SwiftUIMovie...
 
-### A framework that renders SwiftUI views as a video to create amazinf promotional material for your apps
+### A framework that renders SwiftUI views as a video to create amazing promotional material for your apps
 
 # **This is still in alpha**
 

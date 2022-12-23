@@ -126,9 +126,6 @@ class ScreenRecorder: ObservableObject {
         
         do {
             let config = streamConfiguration
-           
-            config.showsCursor = false
-            config.scalesToFit = true
             let filter = contentFilter
             // Update the running state.
             isRunning = true
@@ -207,6 +204,9 @@ class ScreenRecorder: ObservableObject {
         
         let streamConfig = SCStreamConfiguration()
         
+        
+        streamConfig.showsCursor = false
+        streamConfig.scalesToFit = true
         // Configure audio capture.
         streamConfig.capturesAudio = isAudioCaptureEnabled
         streamConfig.excludesCurrentProcessAudio = isAppAudioExcluded
@@ -220,7 +220,7 @@ class ScreenRecorder: ObservableObject {
         // Configure the window content width and height.
         if captureType == .window, let window = selectedWindow {
             streamConfig.width = Int(window.frame.width) * 2
-            streamConfig.height = (Int(window.frame.height) * 2) - 25
+            streamConfig.height = Int(window.frame.height) * 2
         }
         
         // Set the capture interval at 60 fps.

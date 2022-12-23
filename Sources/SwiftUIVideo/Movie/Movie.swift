@@ -21,32 +21,54 @@ public struct Movie<Content: View>: View {
     @State var frameNumber = 0.0
     @StateObject var movie = MovieBuilder()
     public var body: some View {
+        
         ZStack(content: content)
             .aspectRatio(16/9, contentMode: .fit)
             .padding(.top, 25)
-            .task {
-               
+            .fileExporter(isPresented: $movie.completedProcessing, document: MovieDocument(initialData: movie.movieData), contentType: .mpeg4Movie) { result in
+                switch result {
+                case .success(let url):
+                    print("Saved to \(url)")
+                   // URL.clearMovieDir()
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            .task(priority: .background) {
+                URL.clearMovieDir()
+                print(length)
                 if await screenRecorder.canRecord {
+                    await screenRecorder.monitorAvailableContent()
                     if let firstWindow = screenRecorder.filterWindows(screenRecorder.availableWindows).first {
                         screenRecorder.selectedWindow = firstWindow
+                    }  else {
+                        print("WINDOW NOT FOUND")
                     }
                     await screenRecorder.start()
-                } else {
-                   
                 }
-
+                
             }
             .onReceive(timer) { timer in
                 do {
                     if frameNumber > length {
-                        try movie.build()
+                        DispatchQueue.global().async {
+                            do {
+                                try movie.build()
+                            } catch {
+                                
+                            }
+                        }
+                        Task {
+                            await screenRecorder.stop()
+                        }
                         self.timer.upstream.connect().cancel()
                     } else {
                         
                     }
-                    frameNumber += 0.5
+                    print(frameNumber)
+                    frameNumber += 1
                 } catch {
-                    
+                    print(error)
                 }
             }
     }

@@ -8,9 +8,26 @@
 import SwiftUI
 
 extension URL {
-    static func getDocumentsDirectory() -> URL {
-         let paths = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)
-        let documentsDirectory = paths[0].appending(path: "TEST")
-         return documentsDirectory
+    static let sessionID = UUID().uuidString
+    static func getMovieDir() -> URL {
+        let paths = FileManager.default.temporaryDirectory.appending(path: URL.sessionID)
+           let swiftUIMovieDir = paths
+        do {
+            try FileManager.default.createDirectory(at: swiftUIMovieDir, withIntermediateDirectories: false)
+        } catch {
+            
+        }
+           return swiftUIMovieDir
+       }
+    static func clearMovieDir() {
+        do {
+            let paths = FileManager.default.temporaryDirectory.appending(path: "TEST")
+            let swiftUIMovieDir = paths
+            if try !swiftUIMovieDir.checkResourceIsReachable() {
+                try FileManager.default.removeItem(at: swiftUIMovieDir)
+            }
+        } catch {
+            print("ERROR: Please give the project write access")
+        }
      }
 }

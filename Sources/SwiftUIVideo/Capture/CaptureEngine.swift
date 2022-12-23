@@ -105,7 +105,8 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
             if Double(index) < UserDefaults.standard.double(forKey: "length") * 60 {
                 let img = convert(cmage: CIImage(ioSurface: frame.surface!))
                 
-                saveImage(img, atUrl: .getDocumentsDirectory().appendingPathComponent( "\(Int(index))" + ".png"))
+                saveImage(img, atUrl: URL.getMovieDir().appending(path: "\(Int(index))" + ".png"))
+                print(img.size)
             }
                 index += 1
             
@@ -134,7 +135,7 @@ private class CaptureEngineStreamOutput: NSObject, SCStreamOutput, SCStreamDeleg
             let pngData = newRep.representation(using: .png, properties: [:])
             else { return } // TODO: handle error
         do {
-            try pngData.write(to: url)
+            FileManager.default.createFile(atPath: url.path, contents: pngData)
         }
         catch {
             print("error saving: \(error)")
